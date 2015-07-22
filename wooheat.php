@@ -80,14 +80,58 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			if($woo_heat_display > 10) {
 				//only show a maximum of 10 heat points on chart
 				$heat_rating = 10;
+			} else {
+				$heat_rating = $woo_heat_display;
 			}
 
-			$heat_rating = $woo_heat_display*10-10;
+			$heat_rating = $heat_rating*10-10;
 
-			echo '<p class="wooheat-rating">Heat Rating</p>';
-			echo '<div class="wooheat-scale"><span class="wooheat-fire" style="left:'.$heat_rating.'%;"></span></div>';
+			if($woo_heat_display > 10) {
+				echo '<p class="wooheat-rating">Heat Rating</p>';
+				echo get_heat_rating_image($woo_heat_display);
+				echo '<div class="wooheat-scale"><span class="wooheat-fire" style="left:'.$heat_rating.'%;"></span></div>';
+			} else {
+				echo '<p class="wooheat-rating">Heat Rating</p>';
+				echo '<div class="wooheat-scale"><span class="wooheat-fire" style="left:'.$heat_rating.'%;"></span></div>';
+			}
+			
 			
 		}
+	}
+
+	function get_heat_rating_image($heat_rating) {
+
+		$image = '';
+
+		if(is_numeric($heat_rating)) {
+			if(get_option('woo_heat_enable_rating_'.$heat_rating.'_image', false) != false) {
+				$image = get_option('woo_heat_rating_'.$heat_rating.'_image', 'http://placehold.it/200x50');
+				$image = '<img class="wooheat-image" src="'.$image.'" />';
+			}
+		}
+
+		return $image;
+
+	}
+
+	function get_heat_ratings_and_images() {
+
+		$heat_ratings = array();
+
+		for ($x = 1; $x <= 5; $x++) {
+			if(get_option('woo_heat_enable_rating_'.$x.'_image',false) != false ) {
+				$key = 10+$x;
+				$heat_ratings[$key] = get_option('woo_heat_enable_rating_'.$x.'_image');
+				$heat_ratings[$key]['image'] = get_option('woo_heat_rating_'.$x.'_image', 'http://placehold.it/250x50');
+			}
+		}
+
+		if(is_empty($heat_ratings)) {
+			return false;
+		}
+
+		return $heat_ratings;
+		
 	}
 
 	add_action( 'woocommerce_after_shop_loop_item_title', 'woo_heat_show' );
@@ -142,6 +186,16 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		register_setting( 'woo-heat-settings-group', 'woo_heat_cold_temperature_colour' );
 		register_setting( 'woo-heat-settings-group', 'woo_heat_hot_temperature_colour' );
 		register_setting( 'woo-heat-settings-group', 'woo_heat_flame_colour' );
+		register_setting( 'woo-heat-settings-group', 'woo_heat_enable_rating_11_image' );
+		register_setting( 'woo-heat-settings-group', 'woo_heat_enable_rating_12_image' );
+		register_setting( 'woo-heat-settings-group', 'woo_heat_enable_rating_13_image' );
+		register_setting( 'woo-heat-settings-group', 'woo_heat_enable_rating_14_image' );
+		register_setting( 'woo-heat-settings-group', 'woo_heat_enable_rating_15_image' );
+		register_setting( 'woo-heat-settings-group', 'woo_heat_rating_11_image' );
+		register_setting( 'woo-heat-settings-group', 'woo_heat_rating_12_image' );
+		register_setting( 'woo-heat-settings-group', 'woo_heat_rating_13_image' );
+		register_setting( 'woo-heat-settings-group', 'woo_heat_rating_14_image' );
+		register_setting( 'woo-heat-settings-group', 'woo_heat_rating_15_image' );
 	}
 
 	function woo_heat_settings_page() {
@@ -159,6 +213,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	$css='<style>
 
 	.wooheat-rating {padding: 0;margin: 0;}
+	.wooheat-image {width:250px;height:50px;margin:2px!important;}
 	.wooheat-scale{
 		-webkit-border-radius: 6px;-moz-border-radius: 6px;-ms-border-radius: 6px;-o-border-radius: 6px;border-radius: 6px;
 		position:relative;width:100%;height:20px;margin-top:4px;margin-bottom:4px;
@@ -178,6 +233,14 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	print $css;
 
 	}
+
+	// load script to admin
+	function wpss_admin_js() { 
+	     $siteurl = get_option('siteurl');
+	     $url = $siteurl . '/wp-content/plugins/' . basename(dirname(__FILE__)) . '/js/wooheat.js';
+	     echo "<script type='text/javascript' src='$url'></script>"; 
+	}
+	 add_action('admin_head', 'wpss_admin_js');
 
 }
 
