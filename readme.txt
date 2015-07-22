@@ -31,5 +31,9 @@ wooHeat! is extremely easy to install and use.
 
 == Changelog ==
 
+= 1.1 =
+*Added ability to use custom images to represent each rating over 10
+*Added ability to choose between and orage and white flame
+
 = 1.0 =
 *Initial Release

@@ -4,7 +4,7 @@
 Plugin Name: wooHeat! Chilli Heat Rating & Product Sorting
 Plugin URI: http://uiux.me
 Description: Woocommerce Plugin for adding Heat Ratings to products allowing items to be sorted by their heat value.
-Version: 1.0
+Version: 1.1
 Author: Ben Parry
 Author URI: http://uiux.me
 */
