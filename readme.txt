@@ -11,7 +11,7 @@ A Woocommerce Plugin for adding Heat Ratings to products allowing items to be so
 
 == Description ==
 
-wooHeat! has been designed to give woocommerce store owners the ability to add heat raitings to their products. Once your products have a heat raiting, customers can sort products by heat rating - hottest to mildest.
+wooHeat! has been designed to give woocommerce store owners the ability to add heat ratings to their products. Once your products have a heat ratings, customers can sort products by heat rating - hottest to mildest.
 
 == Installation ==
 
