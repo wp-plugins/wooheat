@@ -27,13 +27,18 @@ wooHeat! is extremely easy to install and use.
 2. The sort by heat options
 3. How the heat ratings are displayed on a product page
 4. The heat ratings location when editing a product
-5. Changing the colour of the heat rating chart
+5. The plugin admin screen
 
 == Changelog ==
 
+= 1.2 =
+* Can use plugin only to provide for sorting options
+* Added ability to enable display of heat rating label, scoville units and heat chart
+* Added in Scoville heat unit ratings to products
+
 = 1.1 =
-*Added ability to use custom images to represent each rating over 10
-*Added ability to choose between and orage and white flame
+* Added ability to use custom images to represent each rating over 10
+* Added ability to choose between and orage and white flame
 
 = 1.0 =
-*Initial Release
+* Initial Release

@@ -16,17 +16,29 @@ wp_enqueue_script( 'media-upload');
 	    <?php do_settings_sections( 'woo-heat-settings-group' ); ?>
 
 	    <table class="form-table">
+	    	<tr>
+	        	<th scope="row">Display 'Heat Rating' Label?</th>
+		        <td>
+			        <label for="woo_heat_enable_label"><input name="woo_heat_enable_label" id="woo_heat_enable_label" type="checkbox" value="1" <?php checked( '1', get_option( 'woo_heat_enable_label', true) ); ?> /> Enable</label>
+		        </td>
+	        </tr>
+	    	<tr>
+	        	<th scope="row">Display rating chart?</th>
+		        <td>
+			        <label for="woo_heat_enable_scale"><input name="woo_heat_enable_scale" id="woo_heat_enable_scale" type="checkbox" value="1" <?php checked( '1', get_option( 'woo_heat_enable_scale', true) ); ?> /> Enable</label>
+		        </td>
+	        </tr>
 	        <tr>
 	        	<th scope="row">Cold Colour</th>
 		        <td>
-			        <input type="text" name="woo_heat_cold_temperature_colour" placeholder="<?php echo get_option('woo_heat_cold_temperature_colour', '#7DB558') ?>" value="<?php echo esc_attr( get_option('woo_heat_cold_temperature_colour') ); ?>" />
+			        <input type="text" name="woo_heat_cold_temperature_colour" placeholder="<?php echo get_option('woo_heat_cold_temperature_colour', '#7DB558') ?>" value="<?php echo esc_attr( get_option('woo_heat_cold_temperature_colour', '#7DB558' ) ); ?>" />
 					<p>You must enter valid HEX colour code, eg. #7DB558</p>
 		        </td>
 	        </tr>
 	        <tr>
 	        	<th scope="row">Hot Colour</th>
 		        <td>
-			        <input type="text" name="woo_heat_hot_temperature_colour" placeholder="<?php echo get_option('woo_heat_hot_temperature_colour', '#FF1616') ?>" value="<?php echo esc_attr( get_option('woo_heat_hot_temperature_colour') ); ?>" />
+			        <input type="text" name="woo_heat_hot_temperature_colour" placeholder="<?php echo get_option('woo_heat_hot_temperature_colour', '#FF1616') ?>" value="<?php echo esc_attr( get_option('woo_heat_hot_temperature_colour', '#FF1616') ); ?>" />
 					<p>You must enter valid HEX colour code, eg. #FF1616</p>
 		        </td>
 	        </tr>
@@ -39,8 +51,12 @@ wp_enqueue_script( 'media-upload');
 		        	</select>
 		        </td>
 	        </tr>
-
-
+			<tr>
+	        	<th scope="row">Display Scoville rating?</th>
+		        <td>
+			        <label for="woo_heat_enable_scoville"><input name="woo_heat_enable_scoville" id="woo_heat_enable_scoville" type="checkbox" value="1" <?php checked( '1', get_option( 'woo_heat_enable_scoville', true ) ); ?> /> Enable</label>
+		        </td>
+	        </tr>
 
 	    </table>
 

@@ -4,7 +4,7 @@
 Plugin Name: wooHeat! Chilli Heat Rating & Product Sorting
 Plugin URI: http://uiux.me
 Description: Woocommerce Plugin for adding Heat Ratings to products allowing items to be sorted by their heat value.
-Version: 1.1
+Version: 1.2
 Author: Ben Parry
 Author URI: http://uiux.me
 */
@@ -57,6 +57,14 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				'options' => $options
 				)
 			);
+
+		woocommerce_wp_text_input(
+			array(
+				'id'			=> 'woo_heat_scoville',
+				'label'			=> __( 'Scoville Rating', 'woocommerce'),
+				'description'	=> __('Scoville Heat Units, eg 1000000', 'woocommerce')
+				)
+			);
 	}
 
 	add_action( 'save_post', 'woo_heat_save_product' );
@@ -64,10 +72,16 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	    // If this is a auto save do nothing, we only save when update button is clicked
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 			return;
+
 		if ( isset( $_POST['woo_heat'] ) ) {
 			if ( is_numeric( $_POST['woo_heat'] ) )
 				update_post_meta( $product_id, 'woo_heat', $_POST['woo_heat'] );
 		} else delete_post_meta( $product_id, 'woo_heat' );
+
+		if ( isset( $_POST['woo_heat_scoville'] ) ) {
+			if ( is_numeric( $_POST['woo_heat_scoville'] ) )
+				update_post_meta( $product_id, 'woo_heat_scoville', $_POST['woo_heat_scoville'] );
+		} else delete_post_meta( $product_id, 'woo_heat_scoville' );
 	}
 
 	add_action( 'woocommerce_single_product_summary', 'woo_heat_show', 5 );
@@ -76,6 +90,19 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		// Do not show this on variable products
 		if ( $product->product_type <> 'variable' ) {
 			$woo_heat_display = get_post_meta( $product->id, 'woo_heat', true );
+
+			$heat_label = get_option('woo_heat_enable_label', 1);
+			$heat_scale = get_option('woo_heat_enable_scale', 1);
+			$woo_heat_scoville = '';
+			$scoville = false;
+
+			if(get_option('woo_heat_enable_scoville', false)) {
+				$scoville = true;
+				$woo_heat_scoville = get_post_meta( $product->id, 'woo_heat_scoville', true );
+				if($woo_heat_scoville) {
+					$woo_heat_scoville = number_format($woo_heat_scoville);
+				}
+			}
 
 			if($woo_heat_display > 10) {
 				//only show a maximum of 10 heat points on chart
@@ -87,12 +114,34 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			$heat_rating = $heat_rating*10-10;
 
 			if($woo_heat_display > 10) {
-				echo '<p class="wooheat-rating">Heat Rating</p>';
+
+				if($heat_label) {
+					echo '<p class="wooheat-rating">Heat Rating</p>';
+				}				
+
+				if($scoville) {
+					echo '<p class="wooheat-scoville">'.$woo_heat_scoville.'</span></p>';
+				}
+				
 				echo get_heat_rating_image($woo_heat_display);
-				echo '<div class="wooheat-scale"><span class="wooheat-fire" style="left:'.$heat_rating.'%;"></span></div>';
+
+				if($heat_scale) {
+					echo '<div class="wooheat-scale"><span class="wooheat-fire" style="left:'.$heat_rating.'%;"></span></div>';
+				}
+
 			} else {
-				echo '<p class="wooheat-rating">Heat Rating</p>';
-				echo '<div class="wooheat-scale"><span class="wooheat-fire" style="left:'.$heat_rating.'%;"></span></div>';
+
+				if($heat_label) {
+					echo '<p class="wooheat-rating">Heat Rating</p>';
+				}
+
+				if($scoville) {
+					echo '<p class="wooheat-scoville">'.$woo_heat_scoville.'</span></p>';
+				}
+
+				if($heat_scale) {
+					echo '<div class="wooheat-scale"><span class="wooheat-fire" style="left:'.$heat_rating.'%;"></span></div>';
+				}
 			}
 			
 			
@@ -182,6 +231,9 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	}
 
 	function woo_heat_settings() {
+		register_setting( 'woo-heat-settings-group', 'woo_heat_enable_label');
+		register_setting( 'woo-heat-settings-group', 'woo_heat_enable_scale' );
+		register_setting( 'woo-heat-settings-group', 'woo_heat_enable_scoville' );
 		register_setting( 'woo-heat-settings-group', 'woo_heat_scale_limit' );
 		register_setting( 'woo-heat-settings-group', 'woo_heat_cold_temperature_colour' );
 		register_setting( 'woo-heat-settings-group', 'woo_heat_hot_temperature_colour' );
@@ -214,6 +266,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
 	.wooheat-rating {padding: 0;margin: 0;}
 	.wooheat-image {width:250px;height:50px;margin:2px!important;}
+	.wooheat-scoville {color:#FF1616;}
 	.wooheat-scale{
 		-webkit-border-radius: 6px;-moz-border-radius: 6px;-ms-border-radius: 6px;-o-border-radius: 6px;border-radius: 6px;
 		position:relative;width:100%;height:20px;margin-top:4px;margin-bottom:4px;
