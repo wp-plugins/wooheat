@@ -61,8 +61,26 @@ wp_enqueue_script( 'media-upload');
 	    </table>
 
 		<h3>wooHeat! Custom Images</h3>
-	    <p>The wooHeat! rating system goes up to 15. Everything that is rated over 10 can have a special image that can be displayed instead of the usual heat graph</p>
-		<p>If you want to use a custom image, please ensure the dimensions match 200px wide by 50px high.</p>
+
+		<table class="form-table">
+			<tr>
+	        	<th scope="row">Custom Image Width</th>
+		        <td>
+			        <input type="text" name="woo_heat_image_width" placeholder="<?php echo get_option('woo_heat_image_width', '250') ?>" value="<?php echo esc_attr( get_option('woo_heat_image_width', '250' ) ); ?>" />
+					<p>Default width is 250px. You only need to enter the number is the field.</p>
+		        </td>
+	        </tr>
+	        <tr>
+	        	<th scope="row">Custom Image Height</th>
+		        <td>
+			        <input type="text" name="woo_heat_image_height" placeholder="<?php echo get_option('woo_heat_image_height', '50') ?>" value="<?php echo esc_attr( get_option('woo_heat_image_height', '50' ) ); ?>" />
+					<p>Default height is 50px. You only need to enter the number is the field.</p>
+		        </td>
+	        </tr>
+	    </table>
+
+	    <p>The wooHeat! rating system goes up to 15. Everything that is rated over 10 can have a special image that can be displayed instead of the usual heat graph.</p>
+		<p>If you want to use a custom image, please ensure the dimensions match 250px wide by 50px high.</p>
 
 		<?php $extra = array(11, 12, 13, 14, 15); ?>
 
@@ -79,7 +97,7 @@ wp_enqueue_script( 'media-upload');
 					<?php if(get_option('woo_heat_rating_'.$rating.'_image', '') != '' ) { ?>
 					<img src="<?php echo get_option('woo_heat_rating_'.$rating.'_image') ?>" alt="" />
 					<?php } else { ?>
-					<img src="http://placehold.it/200x50" alt="" />
+					<img src="http://placehold.it/250x50" alt="" />
 					<?php } ?>
 				</td>
 				<td>

@@ -31,6 +31,9 @@ wooHeat! is extremely easy to install and use.
 
 == Changelog ==
 
+= 1.3 =
+* You can change the dimension of the special banners for ratings over 10
+
 = 1.2 =
 * Can use plugin only to provide for sorting options
 * Added ability to enable display of heat rating label, scoville units and heat chart

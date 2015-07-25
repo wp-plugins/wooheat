@@ -4,7 +4,7 @@
 Plugin Name: wooHeat! Chilli Heat Rating & Product Sorting
 Plugin URI: http://uiux.me
 Description: Woocommerce Plugin for adding Heat Ratings to products allowing items to be sorted by their heat value.
-Version: 1.2
+Version: 1.3
 Author: Ben Parry
 Author URI: http://uiux.me
 */
@@ -238,6 +238,8 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		register_setting( 'woo-heat-settings-group', 'woo_heat_cold_temperature_colour' );
 		register_setting( 'woo-heat-settings-group', 'woo_heat_hot_temperature_colour' );
 		register_setting( 'woo-heat-settings-group', 'woo_heat_flame_colour' );
+		register_setting( 'woo-heat-settings-group', 'woo_heat_image_width');
+		register_setting( 'woo-heat-settings-group', 'woo_heat_image_height');
 		register_setting( 'woo-heat-settings-group', 'woo_heat_enable_rating_11_image' );
 		register_setting( 'woo-heat-settings-group', 'woo_heat_enable_rating_12_image' );
 		register_setting( 'woo-heat-settings-group', 'woo_heat_enable_rating_13_image' );
@@ -261,11 +263,13 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	$cold = get_option('woo_heat_cold_temperature_colour', '#7DB558');
 	$hot = get_option('woo_heat_hot_temperature_colour', '#FF1616');
 	$flame_colour = get_option('woo_heat_flame_colour', 'white');
+	$img_width = get_option('woo_heat_image_width', '250');
+	$img_height = get_option('woo_heat_image_height', '50');
 
 	$css='<style>
 
 	.wooheat-rating {padding: 0;margin: 0;}
-	.wooheat-image {width:250px;height:50px;margin:2px!important;}
+	.wooheat-image {width:'.$img_width.'px;height:'.$img_height.'px;margin:2px!important;}
 	.wooheat-scoville {color:#FF1616;}
 	.wooheat-scale{
 		-webkit-border-radius: 6px;-moz-border-radius: 6px;-ms-border-radius: 6px;-o-border-radius: 6px;border-radius: 6px;
